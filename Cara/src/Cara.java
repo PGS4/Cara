@@ -6,7 +6,6 @@ import lejos.nxt.SensorPort;
 public class Cara {
 	public static void main(String[] args) {
 		LightSensor svetlo = new LightSensor(SensorPort.S1);
-		System.out.println("BAF - Brutalni nova verze!!!!");
 		int deska = 0;
 		int cara = 0;
 		int aktual = 0;
