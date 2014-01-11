@@ -20,9 +20,9 @@ public class Cara {
 		int normovana_hodnota=0;
 		int k_senzor=2;
 		
-		System.out.println("Enter - Spustit \n" + "Levy - deska \n"
+		System.out.println("Escape - Spustit \n" + "Levy - deska \n"
 				+ "Pravy - cara");
-		while (!Button.ENTER.isDown()) {
+		while (!Button.ESCAPE.isDown()) {
 			if (Button.LEFT.isDown()) {
 				deska = svetlo.getLightValue();
 				System.out.println(deska);
@@ -34,7 +34,7 @@ public class Cara {
 
 		}
 		int prumer = (deska + cara) / 2;
-		while (!Button.ESCAPE.isDown()) {
+		while (!Button.ENTER.isDown()) {
 			posledni = normovana_hodnota;
 			
 			aktual = svetlo.getLightValue();
