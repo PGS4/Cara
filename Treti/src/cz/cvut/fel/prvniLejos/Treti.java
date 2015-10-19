@@ -37,36 +37,36 @@ public class Treti {
 		Motor.B.forward();
 		Motor.C.forward();
 		int prumer = (cara + deska) / 2;
-		int history = 0;
+		double history = 0;
 		int posledni = prumer;
 		int nastavPropor = 0;
-		final double KONST_I = 0.25;
-		final double KONST_D = 1;
+		final double KONST_I = 0.15;
+		final double KONST_D = 2;
 		while (!Button.ESCAPE.isDown()) {
 			posledni = nastavPropor; 
 			
 			//proporcionální část
 			//P
 			int svetelnaHodnota = svetlo.getLightValue();
-			nastavPropor = prumer-svetelnaHodnota;
+			nastavPropor = svetelnaHodnota-prumer;
 			
 			//I
 			history += nastavPropor*2;
-			if(history > VYCHOZI_HODNOTA)
-				history = VYCHOZI_HODNOTA;
-			if(history < -VYCHOZI_HODNOTA)
-				history = -VYCHOZI_HODNOTA;
+			if(history > VYCHOZI_HODNOTA*1.5)
+				history = VYCHOZI_HODNOTA*1.5;
+			if(history < -VYCHOZI_HODNOTA*1.5)
+				history = -VYCHOZI_HODNOTA * 1.5;
 			
 			//D
 			int derivace = nastavPropor - posledni;
 			
 			//Nastavení rychlosti motoru                                      
 			int nastav = (int) Math.round((nastavPropor*KONST_PROP) + history*KONST_I + derivace*KONST_D);
-			if(nastav > VYCHOZI_HODNOTA)
+			/*if(nastav > VYCHOZI_HODNOTA)
 				nastav = VYCHOZI_HODNOTA;
 			if(nastav < -VYCHOZI_HODNOTA)
 				nastav = -VYCHOZI_HODNOTA;
-			
+			*/
 			System.out.println(nastav);
 			Motor.B.setSpeed(VYCHOZI_HODNOTA + nastav);
 			Motor.C.setSpeed(VYCHOZI_HODNOTA - nastav);
