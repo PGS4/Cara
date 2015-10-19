@@ -41,7 +41,7 @@ public class Treti {
 		int posledni = prumer;
 		int nastavPropor = 0;
 		final double KONST_I = 0.15;
-		final double KONST_D = 2;
+		final double KONST_D = 1;
 		while (!Button.ESCAPE.isDown()) {
 			posledni = nastavPropor; 
 			
