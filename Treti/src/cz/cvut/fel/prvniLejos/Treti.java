@@ -10,7 +10,7 @@ public class Treti {
 	private static LightSensor svetlo = new LightSensor(SensorPort.S3);
 	private static int deska = 0, cara = 0;
 	private static final int KONST_PROP = 4;
-	private static final int VYCHOZI_HODNOTA = 250;
+	private static final int VYCHOZI_HODNOTA = 300;
 
 	public static void main(String[] args) {
 		nastavHodnoty();
@@ -36,14 +36,19 @@ public class Treti {
 	private static void sledujCaru() {
 		Motor.B.forward();
 		Motor.C.forward();
+		int prumer = (cara + deska) / 2;
 		int history = 0;
+		int posledni = prumer;
+		int nastavPropor = 0;
 		final double KONST_I = 0.25;
+		final double KONST_D = 1;
 		while (!Button.ESCAPE.isDown()) {
+			posledni = nastavPropor; 
 			
 			//proporcionální část
-			int prumer = (cara + deska) / 2;
+			//P
 			int svetelnaHodnota = svetlo.getLightValue();
-			int nastavPropor = prumer-svetelnaHodnota;
+			nastavPropor = prumer-svetelnaHodnota;
 			
 			//I
 			history += nastavPropor*2;
@@ -52,8 +57,11 @@ public class Treti {
 			if(history < -VYCHOZI_HODNOTA)
 				history = -VYCHOZI_HODNOTA;
 			
+			//D
+			int derivace = nastavPropor - posledni;
+			
 			//Nastavení rychlosti motoru                                      
-			int nastav = (int) Math.round((nastavPropor*KONST_PROP)+history*KONST_I);
+			int nastav = (int) Math.round((nastavPropor*KONST_PROP) + history*KONST_I + derivace*KONST_D);
 			if(nastav > VYCHOZI_HODNOTA)
 				nastav = VYCHOZI_HODNOTA;
 			if(nastav < -VYCHOZI_HODNOTA)
