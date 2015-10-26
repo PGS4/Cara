@@ -9,7 +9,6 @@ public class Treti {
 
 	private static LightSensor svetlo = new LightSensor(SensorPort.S3);
 	private static int deska = 0, cara = 0;
-	private static final int KONST_PROP = 4;
 	private static final int VYCHOZI_HODNOTA = 300;
 
 	public static void main(String[] args) {
@@ -40,8 +39,9 @@ public class Treti {
 		double history = 0;
 		int posledni = prumer;
 		int nastavPropor = 0;
-		final double KONST_I = 0.15;
-		final double KONST_D = 1;
+		final double KONST_I = 0D;
+		final double KONST_D = 0D;
+		final double KONST_PROP = 4D;
 		while (!Button.ESCAPE.isDown()) {
 			posledni = nastavPropor; 
 			
@@ -52,10 +52,10 @@ public class Treti {
 			
 			//I
 			history += nastavPropor*2;
-			if(history > VYCHOZI_HODNOTA*1.5)
-				history = VYCHOZI_HODNOTA*1.5;
-			if(history < -VYCHOZI_HODNOTA*1.5)
-				history = -VYCHOZI_HODNOTA * 1.5;
+			if(history > VYCHOZI_HODNOTA*1.5D)
+				history = VYCHOZI_HODNOTA*1.5D;
+			if(history < -VYCHOZI_HODNOTA*1.5D)
+				history = -VYCHOZI_HODNOTA * 1.5D;
 			
 			//D
 			int derivace = nastavPropor - posledni;
