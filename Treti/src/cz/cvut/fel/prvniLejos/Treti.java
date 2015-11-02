@@ -9,7 +9,7 @@ public class Treti {
 
 	private static LightSensor svetlo = new LightSensor(SensorPort.S3);
 	private static int deska = 0, cara = 0;
-	private static final int VYCHOZI_HODNOTA = 300;
+	private static final int VYCHOZI_HODNOTA = 250;
 
 	public static void main(String[] args) {
 		nastavHodnoty();
@@ -17,8 +17,7 @@ public class Treti {
 	}
 
 	private static void nastavHodnoty() {
-		System.out.println("Enter - Spustit \n" + "Levy - deska \n"
-				+ "Pravy - cara");
+		System.out.println("Enter - Spustit \n" + "Levy - deska \n" + "Pravy - cara");
 		while (!Button.ENTER.isDown()) {
 			svetlo.setFloodlight(true);
 			if (Button.LEFT.isDown()) {
@@ -40,33 +39,35 @@ public class Treti {
 		int posledni = prumer;
 		int nastavPropor = 0;
 		final double KONST_I = 0D;
-		final double KONST_D = 0D;
-		final double KONST_PROP = 4D;
+		final double KONST_D = 13D; // 8
+		final double KONST_PROP = 14D;// 11
 		while (!Button.ESCAPE.isDown()) {
-			posledni = nastavPropor; 
-			
-			//proporcionální část
-			//P
+			posledni = nastavPropor;
+
+			// proporcionální část
+			// P
 			int svetelnaHodnota = svetlo.getLightValue();
-			nastavPropor = svetelnaHodnota-prumer;
-			
-			//I
-			history += nastavPropor*2;
-			if(history > VYCHOZI_HODNOTA*1.5D)
-				history = VYCHOZI_HODNOTA*1.5D;
-			if(history < -VYCHOZI_HODNOTA*1.5D)
+			if (Math.abs(svetelnaHodnota - prumer) < 1) {
+				nastavPropor = 0;
+			} else {
+				nastavPropor = svetelnaHodnota - prumer;
+			}
+			// I
+			history += nastavPropor;
+			if (history > VYCHOZI_HODNOTA * 1.5D)
+				history = VYCHOZI_HODNOTA * 1.5D;
+			if (history < -VYCHOZI_HODNOTA * 1.5D)
 				history = -VYCHOZI_HODNOTA * 1.5D;
-			
-			//D
+
+			// D
 			int derivace = nastavPropor - posledni;
-			
-			//Nastavení rychlosti motoru                                      
-			int nastav = (int) Math.round((nastavPropor*KONST_PROP) + history*KONST_I + derivace*KONST_D);
-			/*if(nastav > VYCHOZI_HODNOTA)
-				nastav = VYCHOZI_HODNOTA;
-			if(nastav < -VYCHOZI_HODNOTA)
-				nastav = -VYCHOZI_HODNOTA;
-			*/
+
+			// Nastavení rychlosti motoru
+			int nastav = (int) Math.round((nastavPropor * KONST_PROP) + history * KONST_I + derivace * KONST_D);
+			/*
+			 * if(nastav > VYCHOZI_HODNOTA) nastav = VYCHOZI_HODNOTA; if(nastav
+			 * < -VYCHOZI_HODNOTA) nastav = -VYCHOZI_HODNOTA;
+			 */
 			System.out.println(nastav);
 			Motor.B.setSpeed(VYCHOZI_HODNOTA + nastav);
 			Motor.C.setSpeed(VYCHOZI_HODNOTA - nastav);
